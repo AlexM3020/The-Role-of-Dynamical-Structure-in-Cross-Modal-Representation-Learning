@@ -2,9 +2,7 @@
 
 This is the research repository for the paper **The Role of Dynamical Structure in Cross-Modal Representation Learning**.
 
-**Status:** prospective manuscript and executable experimental protocol. Results, discussion, and conclusions in the manuscript are intentionally placeholders. Successful smoke tests are software checks, not scientific findings. Novelty and any positive experimental outcome are not assumed.
-
-## The narrower question
+## Research question
 
 > Does temporal locality relative to fixed observation geometry improve finite-sample alignment between independently trained temporal encoders, compared with isospectral scrambled dynamics, when the stationary observation distribution and latent transition entropy are held fixed?
 
@@ -80,16 +78,11 @@ Orthogonal Procrustes uses calibration means and one scalar normalization per mo
 
 Initialization repeats are averaged within world before world-level paired bootstrap intervals. Intervals are not returned with fewer than five valid worlds. Individual observations and initialization repeats are not treated as independent experimental worlds. Bootstrap intervals with only five worlds are preliminary and can be unstable. Report every prespecified condition, uncertainty, missing metrics, and collapse rates; there is no automated "hypothesis proved" message. Pairwise label shuffling is a diagnostic, not a formal randomization-test p-value.
 
-## Manuscript
-
-[manuscript/main.tex](manuscript/main.tex) is standalone LaTeX with an embedded bibliography, so it can be uploaded directly to Overleaf. Compile twice with pdfLaTeX, or once with Tectonic (which handles reruns). No BibTeX file, custom class, external images, or downloaded style files are needed.
-
-The manuscript includes abstract, introduction, related work, research question, hypotheses, formal setup, controls, learning and evaluation methods, four named experiment placeholders, limitations, and a substantial bibliography. Results, discussion, and conclusions remain empty apart from explicit instructions for later completion. Standard spectral facts are attributed; they are not presented as new theorems.
 
 ## Repository layout
 
 ```text
-manuscript/       Standalone LaTeX manuscript
+
 notebooks/        Four cloud-portable workflows
 src/dynalign/    Simulation, models, training, metrics, experiment runners, reporting
 tests/           Control invariants, metrics, checkpoint and workflow tests

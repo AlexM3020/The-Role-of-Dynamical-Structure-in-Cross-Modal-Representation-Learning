@@ -1,0 +1,2 @@
+# Install from the repository root. Existing compatible cloud PyTorch is retained.
+-e .

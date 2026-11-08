@@ -34,8 +34,8 @@ from .worlds import (
 
 @dataclass(frozen=True)
 class FitSettings:
-    steps: int = 80
-    checkpoints: tuple[int, ...] = (40, 80)
+    steps: int = 3200
+    checkpoints: tuple[int, ...] = (800, 3200)
     batch_size: int = 128
     lr: float = 1e-3
     weight_decay: float = 1e-4
@@ -47,7 +47,7 @@ class FitSettings:
     variance_target: float = 1.0
     epsilon: float = 1e-4
     clip_grad: float = 5.0
-    log_every: int = 40
+    log_every: int = 100
     checkpoint_every: int = 100
 
     def __post_init__(self):

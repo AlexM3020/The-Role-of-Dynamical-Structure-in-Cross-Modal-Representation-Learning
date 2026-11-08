@@ -10,33 +10,54 @@ The main comparison uses a lazy random walk on 32 circularly embedded states and
 
 This is a test of the **interaction between temporal relationships, observation geometry, and learning bias**, not a comparison of inherently physical versus nonphysical worlds. It does not isolate a universal effect of physics. It also does not test whether a larger spectral gap helps: the main comparison preserves the complete spectrum.
 
-## Four notebooks
+## Five revised notebooks — editable configurations, memory-first execution
 
-Each notebook is self-contained as a workflow, imports the shared implementation, and describes its analysis without referring to a manuscript.
+Each notebook explains the question, why its comparisons matter, experiments to try, editable settings, and interpretation limits. Original filenames are retained for existing links, but workflows 2–4 have revised purposes. The manuscript is intentionally not changed by this experiment revision.
 
-| Notebook | Purpose | Compute |
+| Notebook | Revised purpose | Compute |
 |---|---|---|
-| [01_control_audit.ipynb](notebooks/01_control_audit.ipynb) | Audit matched quantities, distinguish mixing and embedding gaps, verify co-permutation and geometry controls | CPU |
-| [02_sample_efficiency.ipynb](notebooks/02_sample_efficiency.ipynb) | Independently train two small sensor encoders; compare local, scrambled, and IID transitions across data budgets | CPU or one GPU |
-| [03_noise_and_observability.ipynb](notebooks/03_noise_and_observability.ipynb) | Repeat comparisons with measurement noise and exact antipodal aliasing in one sensor | CPU or one GPU |
-| [04_pixels_and_sensors.ipynb](notebooks/04_pixels_and_sensors.ipynb) | Compare a tiny CNN on 16 x 16 Gaussian-marker images with a numerical-sensor MLP | CPU or one GPU |
+| [01_control_audit.ipynb](notebooks/01_control_audit.ipynb) | Matched-control audit, geometry checks, and observation-aware conditional-mean references under noise/aliasing | CPU |
+| [02_sample_efficiency.ipynb](notebooks/02_sample_efficiency.ipynb) | Alignment versus dimensional collapse: baseline, variance, covariance, and covariance-identity objectives | CPU or one GPU |
+| [03_noise_and_observability.ipynb](notebooks/03_noise_and_observability.ipynb) | **Now capacity/optimization:** linear and width 32/64/256 encoders, update checkpoints, and a separate data-budget slice | CPU or one GPU |
+| [04_pixels_and_sensors.ipynb](notebooks/04_pixels_and_sensors.ipynb) | **Now combined robustness:** numerical noise, aliasing, and tiny CNN image–sensor comparisons | CPU or one GPU |
+| [05_real_sensor_validation.ipynb](notebooks/05_real_sensor_validation.ipynb) | Raw UCI HAPT accelerometer–gyroscope validation, participant-disjoint calibration/test, activity/identity shortcut diagnostics | One small GPU helpful |
 
-Open in Colab:
+### How to use the configuration cell
 
-- [Control audit](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/01_control_audit.ipynb)
-- [Sample efficiency](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/02_sample_efficiency.ipynb)
-- [Noise and observability](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/03_noise_and_observability.ipynb)
-- [Pixels and sensors](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/04_pixels_and_sensors.ipynb)
+1. Read the experiment checklist in the notebook.
+2. Edit world/seed IDs, data budget, architecture, width, embedding dimension, noise, objectives and loss weights, learning rate, batch size, clipping, weight decay, update checkpoints and evaluation settings directly in the configuration cell. There are no hidden profile presets that replace those choices.
+3. Inspect the displayed plan and fit count. Set `RUN_TRAINING=True` only when ready, then rerun the configuration and subsequent cells.
+4. Keep `SAVE_RESULTS=False` and `OUTPUT_DIR=None` for memory-only execution. These are the defaults in every notebook.
+5. Freeze settings before confirmation. Suggested larger grids (25 new worlds, two repeats, 800/3,200 updates) are instructions, not automatically launched jobs.
 
-For Kaggle, import a notebook from GitHub or upload it, enable Internet for the setup cell, and optionally select a GPU. Each notebook works independently; run the control audit first to understand the assumptions. No account keys, dataset licenses to accept, or pretrained weights are required.
+### Open directly in Google Colab
+
+| Workflow | Launch |
+|---|---|
+| 1. Controls and attainable information | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/01_control_audit.ipynb) |
+| 2. Alignment and collapse | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/02_sample_efficiency.ipynb) |
+| 3. Capacity and optimization | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/03_noise_and_observability.ipynb) |
+| 4. Observation robustness | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/04_pixels_and_sensors.ipynb) |
+| 5. Real-sensor validation | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/05_real_sensor_validation.ipynb) |
+
+1. Open a link in a fresh Colab runtime and run the setup cell. It fetches the shared code from this repository into the **cloud runtime**, not your laptop. No source ZIP upload is needed.
+2. Edit the configuration in cell 4. Inspect the plan, then enable `RUN_TRAINING` when ready. CPU is sufficient for the small checks; select a GPU for larger CNN runs if available.
+3. Keep `SAVE_RESULTS=False` for memory-only results. Dataset download in workflow 5 remains separately opt-in. The source-code fetch does not start HAPT downloading, model training, result saving, or a browser download.
+4. Before collecting a frozen experiment, set `REPO_REF` to the desired commit **before the first setup in a fresh runtime**. The resolved revision is printed and recorded. Existing checkouts are intentionally reused without reset or automatic updates; start a fresh runtime to switch revisions.
+
+Existing compatible packages are used. Set `INSTALL_DEPENDENCIES=True` only if installation is needed. Kaggle also supports the setup when Internet is enabled. Local execution uses the current checkout and does not automatically clone a new repository onto the laptop.
+
+An optional offline source ZIP can still be created with [scripts/make_cloud_bundle.py](scripts/make_cloud_bundle.py) and selected using `SOURCE_ARCHIVE`. It contains source and clean notebook copies, not results, datasets, Git history, or manuscript material.
 
 ## Data and models
 
-All data are generated locally with NumPy from documented equations in [worlds.py](src/dynalign/worlds.py). Importable generators provide transition matrices, nonlinear sensors, and small rendered images. No external dataset is downloaded. The images are synthetic, not evidence of real-world external validity. Small built-in `torch.nn` MLPs and CNNs start from random initialization; avoiding pretrained models also avoids unknown multimodal supervision in their pretraining.
+Workflows 1–4 use NumPy-generated data from [worlds.py](src/dynalign/worlds.py). The images are synthetic, not real-world evidence. Small built-in `torch.nn` encoders start from random initialization, avoiding unknown multimodal pretraining. Workflow 5 explicitly loads [UCI HAPT](https://archive.ics.uci.edu/dataset/341/smartphone+based+recognition+of+human+activities+and+postural+transitions), Reyes-Ortiz et al. (2015), DOI 10.24432/C54G7M, CC BY 4.0: raw 50-Hz accelerometer and gyroscope recordings from 30 participants, not the precomputed feature table.
 
-Every training example is an **independently sampled stationary length-two trajectory**. This deliberately removes long-trajectory mixing and overlapping-window leakage from the main comparison. Each modality receives a separate draw of those trajectories. The two encoders share neither training examples, labels, optimizer state, nor embeddings. They do share the objective family, dynamical law, and experimental design; "independent" does not mean assumption-free.
+In synthetic workflows, every training example is an **independently sampled stationary length-two trajectory**. This removes long-trajectory mixing and overlapping-window leakage from the main comparison. Each modality receives a separate draw. The encoders share no state-label targets, optimizer state, or embeddings. They do share the objective family, dynamical law, and experimental design; "independent" does not mean assumption-free.
 
-Only calibration and evaluation contain same-state cross-modal pairs. Known states are used for diagnostics, probes, and state-mean summaries, never as encoder-training targets. A single-frame encoder cannot distinguish exactly aliased states. The observability notebook reports an accessible quotient target as well as the unrecoverable full-coordinate target; it does not pretend that dynamics recover information absent from the encoder input.
+Only calibration and evaluation use same-state cross-modal pairing. Known synthetic states enter diagnostics, probes, and state-mean summaries, never encoder-training targets. A memoryless encoder cannot distinguish exactly aliased states; the quotient target and observation-aware Bayes-MSE reference clarify what is accessible. Conditional-mean reference scores are finite Monte Carlo estimates, not universal finite-sample metric ceilings.
+
+HAPT windows are non-overlapping within each raw recording. Subjects are split before normalization; only training subjects determine normalization. Calibration fits the orthogonal map, and held-out participants evaluate it. The default 18/6/6 split is an explicit new split, not the original official partition. Neighbor graphs have reflecting endpoints and never cross recordings; scrambling conjugates those **empirical pair kernels** while leaving windows fixed. It does not show that unknown natural dynamics have matched entropy/spectrum. Activity labels are used only after encoder training for fixed probes and grouped diagnostics. Opt-in short recording prefixes are debugging data, not a representative activity benchmark.
 
 ## Running locally
 
@@ -49,44 +70,41 @@ python -m pip install -e ".[dev]"
 python -m pytest
 ```
 
-Select that environment as the notebook kernel. Open any notebook and run from top to bottom. Cloud setup cells install from a repository checkout; change `REPO_REF` from `main` to an immutable commit before collecting final results. The actual checkout commit, source fingerprint, package versions, configuration, and device are saved alongside each run.
+Select that environment as the notebook kernel. Open a notebook and run from top to bottom to inspect its plan; training is disabled until explicitly enabled. Source fingerprint, package versions, Git commit if available, full configuration and device are recorded in the in-memory result bundle. A frozen confirmation run should use immutable source and an independent world set.
 
-## Profiles and budget
+## Budget and confirmation
 
-- **smoke** (default): one world, one initialization pair, 40 updates. Execution and pipeline checks only; no confidence intervals.
-- **pilot**: three worlds, one initialization pair, 300 updates. Exploratory diagnostics, not confirmatory inference.
-- **full**: five worlds, two independent initialization/data repeats per world, 800 updates; data budgets 512, 2,048, and 8,192 transitions, except robustness at 2,048. Five worlds is a starting point, not a power guarantee.
+Default settings describe small execution checks: one world/repeat and checkpoints at 40 and 80 updates; they do not train until enabled. Recommended studies are listed inside each notebook. For the primary objective confirmation, 25 worlds × 2 repeats × 2 conditions × 2 objectives × 2 encoders = 400 encoder fits. Capacity and robustness can use smaller declared secondary grids. Checkpoints at 800 and 3,200 are observations along one run, not two independent replications. Measure runtime before expanding; reported elapsed seconds include evaluation.
 
-The sample-efficiency full grid trains 180 encoders; robustness trains 120; pixel validation trains 120. Runs are sequential on one device. Measure a representative run before starting a full grid. Small dense models can be faster on CPU than on a remote GPU. "Full" means the configured grid, not publication readiness or adequate statistical power. Repeat more independent worlds if uncertainty warrants it, using a fixed analysis plan rather than stopping when an effect looks favorable.
+Keep the original objective as a baseline. Apply any changed regularization equally to both conditions. A covariance-identity penalty is a soft alternative objective, not guaranteed whitening. Increasing rank through measurement noise is not useful factor recovery. Do not select objectives for the largest local-minus-scrambled test gap; use independent development/validation diagnostics, freeze settings, then use fresh worlds.
 
 Use the same optimizer-update budget across conditions. Different data budgets therefore imply different numbers of reuses of each training transition; this estimates data-budget effects at fixed updates, not an asymptotic sample-complexity theorem. Parameter counts and measured training time are recorded. An optional longer-optimization check can be made with explicit copied configurations; never silently tune only the favored condition.
 
-## Checkpoints, persistence, and output
+## No automatic saving to the laptop
 
-- Set `OUTPUT_DIR` in the configuration cell. Colab local storage is ephemeral: use a mounted Drive location if persistence across VM termination is required. The notebooks do not automatically request Drive access.
-- On Kaggle the default output path is under `/kaggle/working`; save a notebook version to retain outputs, and reattach previous outputs when resuming in a new session.
-- Each run saves its configuration, checkpoint for each encoder (including optimizer and minibatch RNG state), embeddings, observation tables, transition matrix, and metrics. Checkpoints are written every 100 updates and at completion.
-- A finished matching run is reused. Cache keys include source, specification, dependency versions, and device. An interrupted matching run resumes from its last checkpoint. Only load checkpoints produced by your own trusted execution.
-- The output directory contains an incrementally updated `summary.csv`; each notebook also saves paired contrasts and plots. A final cell creates a downloadable archive. Copy that archive to durable storage before ending a free cloud session.
-- Outputs, checkpoints, and environments are excluded from Git. No private source conversation or PDF is included in this repository.
+- **Default:** `SAVE_RESULTS=False`, `OUTPUT_DIR=None`. No result directory, model checkpoint, CSV, PNG, or ZIP is written. Tables, figures and export bytes stay in RAM. No automatic download is triggered.
+- **Important editor distinction:** Jupyter/VS Code/Colab may save displayed cell outputs inside the notebook itself. Clear outputs or disable output saving if those must not persist locally; the Python runner does not control editor autosave.
+- **Optional persistence:** set both `SAVE_RESULTS=True` and a deliberate `OUTPUT_DIR`. Use a mounted Drive or explicitly selected Kaggle working location for cloud persistence. Local paths are allowed only by this explicit choice; no location is inferred.
+- Opt-in mode writes per-encoder checkpoints including optimizer/minibatch state, evaluation snapshots, and incremental content-addressed ZIP exports. All actual loss settings, source, environment and device enter run identity; changed configurations cannot silently reuse the old cache. Legacy experiment archives are never used by the revised runner.
+- Final cells prepare ZIP bytes in RAM. `SHOW_DOWNLOAD_LINK=True` displays a link that downloads only after a manual click; clicking can save to the laptop. Runtime failure loses unsaved memory-only progress.
+- Existing outputs are not deleted or changed. The original APIs in [experiments.py](src/dynalign/experiments.py) remain for legacy reproducibility but are no longer called by the revised notebooks; those legacy APIs still write results when invoked explicitly.
 
 ## Measurements and interpretation
 
-Primary endpoint: held-out **linear CKA**, with a local-minus-scrambled contrast at each prespecified data budget. Supporting endpoints: orthogonal Procrustes error fitted on a separate calibration set, state-centroid RSA, effective covariance rank, variance, fixed-coordinate and observable-quotient linear probes, transition-specific spectral probes, and next-coordinate conditional-mean probes. Also report random-initialization CKA and a shuffled-correspondence diagnostic.
+Primary endpoint: held-out **linear CKA**, with a local-minus-scrambled contrast at each prespecified setting. Supporting endpoints include calibration-fitted orthogonal Procrustes, full covariance spectra, effective rank, variance, state-mean versus within-state noise variation, original-coordinate/quotient/transition-specific spectral probes, and next-coordinate conditional-mean probes. Step-zero random-initialization CKA and shuffled-correspondence diagnostics are included. Full configurations, not only regime names, accompany exports.
 
-Orthogonal Procrustes uses calibration means and one scalar normalization per modality, **not arbitrary linear whitening**. Spectral targets are marked undefined when the selected boundary eigengap is zero. Collapsed or invalid runs are retained and flagged; never select only successful runs. State-centroid metrics average measurement noise using known state IDs, so they are complementary oracle-assisted diagnostics, not substitutes for the sample-level endpoint.
+Orthogonal Procrustes uses calibration means and one scalar normalization per modality, **not arbitrary linear whitening**. Spectral targets are marked undefined when the selected boundary eigengap is zero. Collapsed or invalid runs are retained and flagged; never select only successful runs. The revised synthetic workflow decomposes state-mean and within-state noise variation using known state IDs. Legacy state-centroid CKA/RSA remain available in the original implementation, but are not outputs of the revised runner.
 
-Initialization repeats are averaged within world before world-level paired bootstrap intervals. Intervals are not returned with fewer than five valid worlds. Individual observations and initialization repeats are not treated as independent experimental worlds. Bootstrap intervals with only five worlds are preliminary and can be unstable. Report every prespecified condition, uncertainty, missing metrics, and collapse rates; there is no automated "hypothesis proved" message. Pairwise label shuffling is a diagnostic, not a formal randomization-test p-value.
-
+Repetitions are paired first and then averaged within world. Incomplete pairs are counted and prevent survivor-only averaging of that unit. Intervals require at least five valid units; five-unit intervals are preliminary. Real-data intervals resample held-out participants after averaging paired seed differences, conditional on the fixed training/calibration cohort and fitted models. Report valid sample counts, all settings, uncertainty, missing metrics and collapse rates. No workflow declares a hypothesis proved.
 
 ## Repository layout
 
 ```text
-
-notebooks/        Four cloud-portable workflows
+notebooks/        Five revised, memory-first workflows
 src/dynalign/    Simulation, models, training, metrics, experiment runners, reporting
 tests/           Control invariants, metrics, checkpoint and workflow tests
 docs/            Protocol and bibliography provenance
+scripts/         Source-only cloud bundle helper
 VALIDATION.md    What was actually executed and what remains untested
 ```
 

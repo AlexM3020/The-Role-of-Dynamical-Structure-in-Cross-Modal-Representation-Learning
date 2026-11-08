@@ -1,5 +1,27 @@
 # Validation record
 
+## Direct GitHub/Colab setup (2026-11-08)
+
+- Recovered all five revised notebook setup cells after an interrupted publication. Each can fetch the shared source directly from GitHub in a fresh Colab or Kaggle runtime; no uploaded source ZIP is required when Internet is available.
+- The resolved source revision is printed. Existing checkouts are deliberately reused without reset or automatic updates; changing `REPO_REF` requires a fresh runtime. Local execution uses the current checkout rather than creating another local repository.
+- The recovered suite passes 29 tests locally, including two source-bootstrap tests using an isolated simulated cloud filesystem and mocked Git commands. These verify a first source fetch and safe reuse on rerun; they are not a hosted Colab/GPU run.
+- The exact publication tree, based on the existing remote commit, passes 28 tests with one intentional manuscript-only skip; lint passes. Imports were verified to resolve to that isolated tree rather than the local editable installation. All five publication notebooks have valid JSON/nbformat, matching cell source, and no execution outputs or local interpreter metadata.
+- Publication copies of the notebooks have execution outputs and local interpreter metadata removed. Local notebook contents and previous result artifacts are preserved. The public experiment tree intentionally excludes manuscript files; its manuscript-only test is skipped when those files are absent.
+- The remote's existing Colab history and deliberate manuscript-directory removal are preserved. No new dataset download or full research experiment is part of this publication step.
+
+## Revised workflows (2026-11-08)
+
+- The five notebook sources parse as Python/nbformat and contain no references to being part of a paper in their narratives. Configuration cells directly expose the experimental and optimization settings.
+- All 27 unit/regression/document tests pass on Python 3.12.10 CPU. Tests cover memory-only defaults, explicit save/resume, loss-weight behavior, aliasing references, balanced repeated-state diagnostics, pairing before world-level aggregation, raw archive parsing with a small explicit fixture, participant split safety and the real-sensor workflow.
+- Notebook 1's analytical cells executed in the notebook editor. Its export produced bytes in RAM, not an archive on disk.
+- The exact code cells of notebooks 2–5 were executed in isolated namespaces in the working Python 3.14.6 notebook kernel. Their default paths perform no training, download or result-file saving.
+- Notebooks 2–4 were additionally exercised with three-update, 32-pair CPU overrides while preserving the objective/architecture/observation combinations, and with disk saving disabled. These check execution only.
+- Notebook 5's data/training/analysis/export branches were exercised on an explicitly labeled in-memory sensor fixture; the raw archive parser was tested separately with synthetic HAPT-shaped text members. The fixture is **not HAPT evidence** and no synthetic fallback exists in the actual notebook.
+- No real HAPT archive was downloaded and no real HAPT training, full grid, hosted Colab/Kaggle execution, or CUDA run was performed for this revision. These remain unverified until explicitly run by the user.
+- Test checkpoints are confined to temporary test directories. The existing experiment output directory was not used for new runs. Temporary notebook validation cells were removed after checks.
+
+The source-only cloud ZIP contains clean notebook copies with custom language/ID metadata and no execution outputs; generating it does not modify the source notebooks or include local results. Notebook editors may independently save displayed outputs inside local notebook files; clear those outputs or disable editor output saving if this is undesired.
+
 ## Executed locally (2026-11-07)
 
 - Installed the package in an isolated Python 3.12.10 environment and verified that imports resolve to this repository.

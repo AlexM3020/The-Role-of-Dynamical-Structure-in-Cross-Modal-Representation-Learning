@@ -24,3 +24,10 @@ artifacts/
 .env.*
 credentials.json
 kaggle.json
+cloud_notebooks.zip
+data/
+
+# Local writing/review material is not part of the public experiment repository.
+/manuscript/
+/experiments.pdf
+/scripts/render_framework_figures.py

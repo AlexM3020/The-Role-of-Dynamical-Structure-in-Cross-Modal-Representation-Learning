@@ -1,5 +1,29 @@
 # Frozen-run checklist and interpretation boundaries
 
+## Revised five-workflow plan (2026-11-08)
+
+The current notebooks use the memory-first engine in `src/dynalign/revised.py` and the real-sensor workflow in `src/dynalign/hapt.py`. The original engine is retained only for old-result reproducibility. The manuscript is unchanged and will need a separate methods update when the final experiment choices are frozen.
+
+1. **Controls and attainable information:** retain exact construction/geometry checks, and estimate known-simulator conditional means for coordinate, quotient and transition-specific spectral targets. These are privileged Bayes-MSE references estimated by Monte Carlo, not training labels or guaranteed finite-sample metric ceilings.
+2. **Alignment versus collapse:** original 25/25/1 weights; stronger variance; stronger off-diagonal covariance; and an explicit covariance-identity penalty. The latter is a soft alternative loss, not hard whitening. Apply each regime equally to both conditions. Develop on separate worlds, freeze settings without maximizing favorable test contrasts, then use 25 new worlds and two repeats for the primary baseline/candidate comparison.
+3. **Capacity/optimization:** linear and width 32/64/256 encoders at fixed output dimension, with checkpoints along the same training trajectory. Separate the capacity slice from the width-64 data-budget slice. Suggested checkpoints are 800/3,200 and budgets 512/2,048/8,192 after benchmarking. These are finite-budget comparisons, not a sample-complexity theorem.
+4. **Observation robustness:** clean/noisy/antipodally aliased numerical sensors and a tiny CNN image–sensor setting. Compare within each sensor setting, baseline versus a previously frozen candidate. An identical reused clean run is not independent replication. Ten fresh worlds and two repeats are a proposed secondary grid, not a power guarantee.
+5. **Raw HAPT:** independently trained accelerometer/gyroscope encoders; non-overlapping raw windows; participant-disjoint train/calibration/test; train-only normalization. Permute a symmetric reflecting neighbor graph within each recording, with a common graph construction across modalities and independent pair draws. This preserves the empirical pair kernel spectrum, not unknown physical transition statistics. Activity labels enter only frozen probes and grouped diagnostics.
+
+The new runner records complete `FitSettings`, `EvalSettings`, and per-run specifications. It reports full covariance eigenvalues, effective rank, state-mean/noise variation, and collapse rather than automatically filtering failed representations. Rank restoration caused by measurement noise is not useful factor recovery. State-mean variance is corrected for finite-repeat noise; the untruncated corrected estimate is retained.
+
+### Storage and budget gates
+
+Every notebook starts with `RUN_TRAINING=False` (except the analytical audit), `SAVE_RESULTS=False`, and no output directory. HAPT download/loading is separately disabled. All analysis and export preparation happen in RAM. Only an explicit output directory with saving enabled permits disk artifacts. A browser link downloads only when manually clicked. Notebook-editor autosave of displayed cell outputs is a separate behavior that the runner cannot disable.
+
+The default small configuration is an execution-check plan, not a meaningful scientific sample. Inspect the displayed fit count and resource budget before enabling training. Do not silently run all recommended expanded grids. Existing results are never deleted or relabeled as confirmation.
+
+Repetitions are paired before averaging within a world or test participant. Missing paired scores are counted; a unit with a missing repeat does not contribute a survivor-only mean. For HAPT, participant-bootstrap intervals are conditional on fixed training/calibration cohorts and fitted models, and the default six test participants provide limited precision. Check label coverage: a debugging prefix may omit activity classes and yield undefined probes.
+
+### Provenance of previous results
+
+The supplied feedback refers to full-run archives from commits different from the initial local checkout. Those numerical claims have not been independently reconciled by this revision. Preserve those archives and verify source/configuration/environment before pooling them with new runs. In particular, identical clean runs shared by two analyses are not separate evidence.
+
 ## Primary comparison
 
 Local versus permutation-conjugated dynamics **with sensor maps fixed**. This changes locality relative to the observations, not the abstract transition graph. Exact matches: uniform stationary distribution, instantaneous cross-modal observation law, latent transition entropy, self-transition rate, complete spectrum, and both mixing and embedding gaps. Temporal observation laws, sensor roughness, and network approximation difficulty are intentionally not matched.

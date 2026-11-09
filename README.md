@@ -30,25 +30,6 @@ Each notebook explains the question, why its comparisons matter, experiments to 
 4. Keep `SAVE_RESULTS=False` and `OUTPUT_DIR=None` for memory-only execution. These are the defaults in every notebook.
 5. Freeze settings before confirmation. Suggested larger grids (25 new worlds, two repeats, 800/3,200 updates) are instructions, not automatically launched jobs.
 
-### Open directly in Google Colab
-
-| Workflow | Launch |
-|---|---|
-| 1. Controls and attainable information | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/01_control_audit.ipynb) |
-| 2. Alignment and collapse | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/02_sample_efficiency.ipynb) |
-| 3. Capacity and optimization | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/03_noise_and_observability.ipynb) |
-| 4. Observation robustness | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/04_pixels_and_sensors.ipynb) |
-| 5. Real-sensor validation | [Open in Colab](https://colab.research.google.com/github/AlexM3020/The-Role-of-Dynamical-Structure-in-Cross-Modal-Representation-Learning/blob/main/notebooks/05_real_sensor_validation.ipynb) |
-
-1. Open a link in a fresh Colab runtime and run the setup cell. It fetches the shared code from this repository into the **cloud runtime**, not your laptop. No source ZIP upload is needed.
-2. Edit the configuration in cell 4. Inspect the plan, then enable `RUN_TRAINING` when ready. CPU is sufficient for the small checks; select a GPU for larger CNN runs if available.
-3. Keep `SAVE_RESULTS=False` for memory-only results. Dataset download in workflow 5 remains separately opt-in. The source-code fetch does not start HAPT downloading, model training, result saving, or a browser download.
-4. Before collecting a frozen experiment, set `REPO_REF` to the desired commit **before the first setup in a fresh runtime**. The resolved revision is printed and recorded. Existing checkouts are intentionally reused without reset or automatic updates; start a fresh runtime to switch revisions.
-
-Existing compatible packages are used. Set `INSTALL_DEPENDENCIES=True` only if installation is needed. Kaggle also supports the setup when Internet is enabled. Local execution uses the current checkout and does not automatically clone a new repository onto the laptop.
-
-An optional offline source ZIP can still be created with [scripts/make_cloud_bundle.py](scripts/make_cloud_bundle.py) and selected using `SOURCE_ARCHIVE`. It contains source and clean notebook copies, not results, datasets, Git history, or manuscript material.
-
 ## Data and models
 
 Workflows 1–4 use NumPy-generated data from [worlds.py](src/dynalign/worlds.py). The images are synthetic, not real-world evidence. Small built-in `torch.nn` encoders start from random initialization, avoiding unknown multimodal pretraining. Workflow 5 explicitly loads [UCI HAPT](https://archive.ics.uci.edu/dataset/341/smartphone+based+recognition+of+human+activities+and+postural+transitions), Reyes-Ortiz et al. (2015), DOI 10.24432/C54G7M, CC BY 4.0: raw 50-Hz accelerometer and gyroscope recordings from 30 participants, not the precomputed feature table.
